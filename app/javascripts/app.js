@@ -19,7 +19,7 @@ import voting_artifacts from '../../build/contracts/Voting.json'
 
 var Voting = contract(voting_artifacts);
 
-let candidates = {"Daniel": "candidate-1", "Peixinho": "candidate-2"}
+let candidates = {"Bolacha": "candidate-1", "Biscoito": "candidate-2"}
 
 window.voteForCandidate = function(candidate) {
   let candidateName = $("#candidate").val();
@@ -47,13 +47,18 @@ window.voteForCandidate = function(candidate) {
 
 $( document ).ready(function() {
   if (typeof web3 !== 'undefined') {
-    alert("Using web3 detected from external source like Metamask")
-    // Use Mist/MetaMask's provider
-    window.web3 = new Web3(web3.currentProvider);
+    var RINKEBY_VERSION = "4"
+    if (web3.version.network === RINKEBY_VERSION) {
+      window.web3 = new Web3(web3.currentProvider);
+      $('.not-connected').addClass('hidden');
+      $('.connected').removeClass('hidden');
+    }
   } else {
-    alert("No web3 detected. Falling back to http://localhost:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
+    // alert("No web3 detected. Falling back to http://localhost:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    // window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    $('.not-connected').removeClass('hidden');
+    $('.connected').addClass('hidden');
   }
 
   Voting.setProvider(web3.currentProvider);
