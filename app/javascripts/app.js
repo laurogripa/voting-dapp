@@ -22,7 +22,7 @@ var Voting = contract(voting_artifacts);
 let candidates = {"Bolacha": "candidate-1", "Biscoito": "candidate-2"}
 
 window.voteForCandidate = function(candidate) {
-  let candidateName = $("#candidate").val();
+  let candidateName = candidate;
   try {
     $("#msg").html("Vote has been submitted. The vote count will increment as soon as the vote is recorded on the blockchain. Please wait.")
     $("#candidate").val("");
